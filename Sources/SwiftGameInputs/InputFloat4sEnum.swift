@@ -2,7 +2,7 @@ import Foundation
 
 public protocol InputFloat4sEnum:CaseIterable, RawRepresentable where RawValue == Int{
 	var value: SIMD4<Float>? { get }
-	func set(to: SIMD4<Float>)
+	func set(to: SIMD4<Float>?)
 }
 extension InputFloat4sEnum{
 	public var value: SIMD4<Float>?{
