@@ -88,14 +88,15 @@ extension InputManager{
 extension InputManager{
 	public func set(float4ID: Int, to value: SIMD4<Float>){
 		lock()
-		if iFloat4s.updateValue(value, forKey: floatID) == nil{
+		if iFloat4s.updateValue(value, forKey: float4ID) == nil{
 			print("InputManager.set(float4Id: \(float4ID), to: \(value))  set a key that was not already set")
 		}
 		unlock()
 	}
 	
 	public func get(float4ID: Int)->SIMD4<Float>?{
-	    iFloat4s[floatID]
+	    if let result = iFloat4s[floatID]{ return result}
+	    else { return nil}
 	}
 }
 
@@ -110,6 +111,7 @@ extension InputManager{
 	}
 	
 	public func get(float8ID: Int)->SIMD8<Float>?{
-	    iFloat8s[float8ID]
+	    if let result = iFloat8s[float8ID] { return result}
+	    else { return nil}
 	}
 }
