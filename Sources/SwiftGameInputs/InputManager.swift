@@ -1,3 +1,5 @@
+import simd
+
 public class InputManager{
 	public static var shared: InputManager = InputManager()
 	private init(){}
@@ -6,8 +8,9 @@ public class InputManager{
 	private var iStrings: [Int:String] = [:]
 	private var iFloats: [Int: Float] = [:]
 	private var sStrings: [String: String] = [:]
-	
-	private var isLocked: Bool = false 
+	private var iFloat4s: [Int: SIMD4<Float>?] = [:]
+	private var iFloat8s: [Int: SIMD8<Float>?] = [:]
+	private var isLocked: Bool = false
 	private func waitUnlocked(){
 		while (isLocked) {}
 	}
@@ -79,5 +82,34 @@ extension InputManager{
 	
 	public func get(floatID: Int)->Float?{
 	    iFloats[floatID]
+	}
+}
+// float4 extensions
+extension InputManager{
+	public func set(float4ID: Int, to value: SIMD4<Float>){
+		lock()
+		if iFloat4s.updateValue(value, forKey: floatID) == nil{
+			print("InputManager.set(float4Id: \(float4ID), to: \(value))  set a key that was not already set")
+		}
+		unlock()
+	}
+	
+	public func get(float4ID: Int)->SIMD4<Float>?{
+	    iFloat4s[floatID]
+	}
+}
+
+// float8 extensions
+extension InputManager{
+	public func set(float8ID: Int, to value: SIMD8<Float>){
+		lock()
+		if iFloat8s.updateValue(value, forKey: float8ID) == nil{
+			print("InputManager.set(float8Id: \(float8ID), to: \(value))  set a key that was not already set")
+		}
+		unlock()
+	}
+	
+	public func get(float8ID: Int)->SIMD8<Float>?{
+	    iFloat8s[float8ID]
 	}
 }
